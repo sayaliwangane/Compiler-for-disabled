@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.1/css/font-awesome.min.css" />
+	
+
+    <title>Online Code Editor</title>
+  </head>
+  <body style="font-family:Verdana;"><br>
+    <h1 style="text-align: center;margin-top: 10px; margin-left: 50px; color: rgb(1, 94, 215); font-size: 40px;">Speech Based Code Editor</h1><br>
+    <button type="submit" class="btn btn-primary" style="margin-left:650px;" onclick="startConverting();"><i style="padding-right: 10px;" class="fa fa-microphone"></i>Start</button>
+    <form action="/runcode" method="post">
+      {% csrf_token %}
+  <div class="form-group" style="margin-left:50px;margin-right:50px;">
+    <label for="codearea" style="margin-top: 2px; font-weight: bold;">Code Area</label>
+    <textarea type="text" class="form-control" id="codearea" name="codearea" rows="10" onkeydown="if(event.keyCode===9){var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;}">
+      {{ code }}</textarea>
+  </div>
+
+  <div class="form-group" style="margin-left:50px;margin-right:50px;">
+    <label for="output" style="font-weight: bold;">Output</label>
+    <textarea type="text" class="form-control" id="output" name="output" rows="4" disabled> {{ output }} </textarea>
+  </div>
+
+  <button type="submit" class="btn btn-primary" style="margin-left:50px; margin-right: 20px; float: left;">Submit</button>
+  <br>
+  {% if timestamp != 0 %}
+      <h5 style="margin-top: -10px;">Submitted at : {{timestamp}}</h5>
+    {% endif %}
+  
+ </form>
+ <form action="/back" method="post" style="margin-left:1250px;">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-primary" style="margin-top: -80px;"><a href="landing.html"></a>Back</a></button>
+
+</form>
+
+
+
+<form>
+  
+<!--<button type="submit" class="btn btn-primary" style="margin-left:50px;" onclick="stopConverting();" disabled>Stop</button>-->
+
+<!--<div id="keyboard">
+  <button class="operator" id="clear">C</button>
+  <button class="operator" id="backspace">CE</button>
+  <button class="operator" id="%">%</button>
+  <button class="operator" id="/">&#247;</button>
+  <button class="operator" id="*">&times;</button>
+  <button class="operator" id="-">-</button>
+  <button class="operator" id="+">+</button>
+  <button class="operator" id="=">=</button>
+</div>-->
+
+
+<!--
+
+<br>
+  <button type = "button" style="position:absolute; left:48%;" onclick="startConverting();"><i class="fa fa-microphone"></i></button>
+click this button to stop converting
+<button type = "button" style="position:absolute; left:51%;" onclick="stopConverting();"><i class="fa fa-remove"></i></button>
+</br>
+   <p><input type = "submit" value = "submit" /></p>-->
+
+
+
+<!---->
+<script type="text/javascript">
+		
+   
+  var overlay = document.getElementById("overlay");
+  
+  
+    var r = document.getElementById('codearea');
+    var speechRecognizer = new webkitSpeechRecognition();// a new speech recognition object
+    
+    //function to start listening to voice and then convert it to text
+    function startConverting () {
+      if('webkitSpeechRecognition' in window){
+        debugger;
+        speechRecognizer.continuous = true;
+        speechRecognizer.interimResults = true;
+        speechRecognizer.lang = 'en-IN';
+        speechRecognizer.start();
+        var finalTranscripts = '';
+        speechRecognizer.onresult = function(event){
+          var interimTranscripts = '';
+          
+          for(var i = event.resultIndex; i < event.results.length; i++){
+            var transcript = event.results[i][0].transcript;
+            operations = {"plus":"+",
+                          "minus":"-",
+                          "multiply":"*",
+                          "multiplied":"*",
+                          "divide":"/",
+                          "divided":"/",
+                          "reminder":"%",
+                        "open circular bracket":"(",
+                        "closed circular bracket":")",
+                         "open single quotes":"'",
+                         "close single quotes":"'"
+                        }
+                          var input = event.results[0][0].transcript;
+		for(property in operations){
+      debugger
+			transcript= transcript.replace(property, operations[property]);
+      console.log("transcript:::::::::::",transcript)
+		}
+            console.log(transcript)
+            ///////
+
+            
+
+
+
+
+
+
+            ///////
+            //document.getElementById("codearea").innerHTML = transcript;
+            //transcript.replace("\n", "<br>");
+            if(event.results[i].isFinal){
+              
+              finalTranscripts += transcript;
+              console.log("finalTranscripts="+finalTranscripts)
+              //console.log("event.results[i]"+event.results[i])
+            }else{
+              interimTranscripts += transcript;
+            }
+          }
+          r.value = finalTranscripts + interimTranscripts ;
+          
+        
+        };
+        speechRecognizer.onerror = function (event) {
+        };
+      }else{
+        r.innerHTML = 'No browser support. Please upgrade your browser';
+      }
+    }
+    //function to stop listening
+    function stopConverting()
+    {
+      debugger
+      r.value = finalTranscripts + interimTranscripts ;
+      console.log("stop",r.value)
+      speechRecognizer.stop();
+      alert("stop");
+    }
+  
+  </script>
+
+
+
+
+<!---->
+
+  </body>
+</html>

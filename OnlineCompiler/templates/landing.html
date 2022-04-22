@@ -1,0 +1,26 @@
+<html>
+
+<head>
+	<title>Code Editor</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<body style="background-image: linear-gradient(to bottom right, rgb(233, 233, 206) , rgb(12, 243, 235));">
+<h1 style="text-align: center; margin: 60px; font-size: 60px; color: rgb(0, 0, 0);">Start your Coding Journey!</h1>
+<form action="/text" method="post" style="text-align: center; margin-bottom: 70px; margin-top: 90px; padding-left: 500px; padding-right: 500px;">
+	{% csrf_token %}
+	<button style="padding-top: 20px; padding-bottom: 20px;" type="submit" class="btn btn-primary btn-lg btn-block" >Text Mode</button>
+
+</form>
+<form action="/index" method="post" style="text-align: center; margin-bottom: 70px; margin-top: 90px; padding-left: 500px; padding-right: 500px;">
+	{% csrf_token %}
+	<button style="padding-top: 20px; padding-bottom: 20px;" type="submit" class="btn btn-primary btn-lg btn-block" >Voice Mode</button>
+
+</form>
+<form action="/sign" method="post" style="text-align: center; margin-top: 90px; padding-left: 500px; padding-right: 500px;">
+	{% csrf_token %}
+	<button style="padding-top: 20px; padding-bottom: 20px;" type="submit" class="btn btn-primary btn-lg btn-block" >Sign Language Mode</button>
+	
+</form>
+
+</body>
+</head>
+</html>
