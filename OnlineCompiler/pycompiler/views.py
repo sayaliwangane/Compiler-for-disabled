@@ -175,7 +175,7 @@ def speak(audio):
     engine.runAndWait()
 
 def symbol(a):
-    if 'plus' in a.lower():
+    if 'add' in a.lower():
         pyautogui.write("+")
     elif 'subtract' in a.lower():
         pyautogui.write("-")
