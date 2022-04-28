@@ -82,8 +82,11 @@ click this button to stop converting
   
   
     var r = document.getElementById('codearea');
+  
     var speechRecognizer = new webkitSpeechRecognition();// a new speech recognition object
-    
+    output = new SpeechSynthesisUtterance();
+    output.text = document.getElementById('output').value;
+    window.speechSynthesis.speak(output);
     //function to start listening to voice and then convert it to text
     function startConverting () {
       if('webkitSpeechRecognition' in window){
@@ -104,11 +107,13 @@ click this button to stop converting
                           "multiplied":"*",
                           "divide":"/",
                           "divided":"/",
-                          "reminder":"%",
+                          "remainder":"%",
                         "open circular bracket":"(",
                         "closed circular bracket":")",
                          "open single quotes":"'",
-                         "close single quotes":"'"
+                         "close single quotes":"'",
+                         "equal to": "=",
+                         "clear":"submitbtn()"
                         }
                           var input = event.results[0][0].transcript;
 		for(property in operations){
@@ -116,6 +121,7 @@ click this button to stop converting
 			transcript= transcript.replace(property, operations[property]);
       console.log("transcript:::::::::::",transcript)
 		}
+    
             console.log(transcript)
             ///////
 
@@ -156,6 +162,15 @@ click this button to stop converting
       console.log("stop",r.value)
       speechRecognizer.stop();
       alert("stop");
+    }
+    function submitbtn()
+    {
+    document.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && String.fromCharCode(e.keyCode).toLowerCase() === 's') {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+}, false);
     }
   
   </script>

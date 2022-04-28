@@ -148,7 +148,9 @@ def text1(request):
 
 
     #finally return and render index page and send codedata and output to show on page
-
+    # var msg = new SpeechSynthesisUtterance();
+    # msg.text = output;
+    # window.speechSynthesis.speak(msg);
     return render(request , 'text.html', {"code":codeareadata , "output":output,"timestamp":ct})
 
 def runOnVoiceCommand(request):
